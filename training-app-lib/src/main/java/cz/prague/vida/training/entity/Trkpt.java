@@ -1,21 +1,26 @@
 package cz.prague.vida.training.entity;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Trkpt {
-	private String extensions;
+	
+	private Extensions extensions;
 
+	@XmlAttribute
 	private String lon;
-
 	private String time;
-
+	@XmlAttribute
 	private String lat;
-
 	private String ele;
 
-	public String getExtensions() {
+	public Extensions getExtensions() {
 		return extensions;
 	}
 
-	public void setExtensions(String extensions) {
+	public void setExtensions(Extensions extensions) {
 		this.extensions = extensions;
 	}
 
@@ -53,7 +58,7 @@ public class Trkpt {
 
 	@Override
 	public String toString() {
-		return "ClassPojo [extensions = " + extensions + ", lon = " + lon + ", time = " + time + ", lat = " + lat
-				+ ", ele = " + ele + "]";
+		return "Trkpt [extensions=" + extensions + ", lon=" + lon + ", time=" + time + ", lat=" + lat + ", ele=" + ele + "]\n";
 	}
+
 }

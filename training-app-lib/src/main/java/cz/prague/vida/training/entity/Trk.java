@@ -33,6 +33,7 @@ public class Trk {
 
 	@Override
 	public String toString() {
-		return "ClassPojo [trkseg = " + trkseg + ", name = " + name + ", type = " + type + "]";
+		return "Trk [trkseg=" + trkseg + ", name=" + name + ", type=" + type + "]\n";
 	}
+
 }

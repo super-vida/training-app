@@ -1,6 +1,7 @@
 package cz.prague.vida.training.entity;
 
 public class Metadata {
+
 	private String time;
 
 	public String getTime() {
@@ -13,6 +14,7 @@ public class Metadata {
 
 	@Override
 	public String toString() {
-		return "ClassPojo [time = " + time + "]";
+		return "Metadata [time=" + time + "]";
 	}
+
 }

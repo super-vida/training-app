@@ -1,5 +1,7 @@
 package cz.prague.vida.training.entity;
 
+import java.util.Arrays;
+
 public class Trkseg {
 	private Trkpt[] trkpt;
 
@@ -13,6 +15,7 @@ public class Trkseg {
 
 	@Override
 	public String toString() {
-		return "ClassPojo [trkpt = " + trkpt + "]";
+		return "Trkseg [trkpt=" + Arrays.toString(trkpt) + "]";
 	}
+
 }

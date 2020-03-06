@@ -1,14 +1,23 @@
 package cz.prague.vida.training.entity;
 
-public class Gpx {
-	private String creator;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(namespace = "http://www.topografix.com/GPX/1/1")
+public class Gpx {
+	@XmlAttribute
+	private String creator;
+	@XmlAttribute
 	private String xmlns;
 
 	private Metadata metadata;
-
+    @XmlElement
 	private Trk trk;
-
+	@XmlAttribute
 	private String version;
 
 	public String getCreator() {
@@ -53,7 +62,7 @@ public class Gpx {
 
 	@Override
 	public String toString() {
-		return "ClassPojo [creator = " + creator + ", xmlns = " + xmlns + ", metadata = " + metadata + ", trk = " + trk
-				+ ", version = " + version + "]";
+		return "Gpx [creator=" + creator + ", xmlns=" + xmlns + ", metadata=" + metadata + ", trk=" + trk + ", version=" + version + "]";
 	}
+
 }
