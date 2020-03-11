@@ -1,6 +1,10 @@
-.metadata
+/target/
+.metadata/
 training-app-lib/.classpath
 training-app-lib/.gitignore
 training-app-lib/.project
 training-app-lib/.settings/
-
+training-app-web/.classpath
+training-app-web/.gitignore
+training-app-web/.project
+training-app-web/.settings/
