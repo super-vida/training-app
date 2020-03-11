@@ -3,12 +3,16 @@ package cz.prague.vida.training;
 import static cz.prague.vida.training.Logger.logger;
 
 import java.io.FileReader;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -35,14 +39,16 @@ public class TrainingParser {
 	private double distance = 0;
 	private double lastLatitude = 0;
 	private double lastLongtitute = 0;
-	private double hr = 0;
+	private double heartRateSum = 0;
 	private double maxHeartRate = 0;
+	private double lastHeartRate = 0;
 	private double ascend = 0;
 	private double descend = 0;
 	private double lastElevation = 0;
 	private double trimp = 0;
 	private Map<Double, Double> trimpMap = new HashMap<Double, Double>();
 	private Map<TrainingZone, Double> zoneMap = new HashMap<TrainingZone, Double>();
+	private Map<Double, List<Integer>> peakHeartRateMap = new HashMap<Double, List<Integer>>();
 
 	private boolean paused;
 
@@ -84,14 +90,10 @@ public class TrainingParser {
 		maxHeartRate = localHr > maxHeartRate ? localHr : maxHeartRate;
 		Double timeInHeartRate = trimpMap.get(localHr);
 		trimpMap.put(localHr, timeInHeartRate == null ? 1 : timeInHeartRate + 1);
-		hr = hr + localHr;
+		heartRateSum = heartRateSum + localHr;
 		if (user.getTrainingZones() != null) {
 			for (TrainingZone zone : user.getTrainingZones()) {
 				if (localHr.intValue() > zone.getFrom().intValue() && localHr.intValue() <= zone.getTo().intValue() ) {
-					
-					if (zone.getFrom().intValue() == 160) {
-						System.out.println("je to tady");
-					}
 					if (zoneMap.containsKey(zone)) {
 						double time = zoneMap.get(zone);
 						zoneMap.put(zone, time + 1.0);
@@ -101,6 +103,34 @@ public class TrainingParser {
 				}
 			}
 		}
+		if (localHr.intValue() == 97) {
+			System.out.println("Test " + counter + " 97");
+		}
+		if (lastHeartRate > 0) {
+			if (lastHeartRate == localHr) {
+				if (peakHeartRateMap.containsKey(localHr)) {
+					List<Integer> maxTimes = peakHeartRateMap.get(localHr);
+					Integer lastMaxTime = maxTimes.get(maxTimes.size() - 1);
+					maxTimes.set(maxTimes.size() -1 , lastMaxTime + 1);
+					peakHeartRateMap.put(localHr, maxTimes);
+				}
+				else {
+					List<Integer> maxTimes = new ArrayList<Integer>();
+					maxTimes.add(1);
+					peakHeartRateMap.put(localHr, maxTimes);
+				}
+			}
+			else {
+				List<Integer> maxTimes = peakHeartRateMap.get(localHr);
+				if (maxTimes == null) {
+					maxTimes = new ArrayList<Integer>();	
+				}
+				maxTimes.add(1);
+				peakHeartRateMap.put(localHr, maxTimes);	
+				
+			}
+		}
+		lastHeartRate = localHr;
 	}
 
 	private void makeElevationStatistics(Trkpt t) {
@@ -164,7 +194,7 @@ public class TrainingParser {
 		trainingStatistics.setPausedTime(pausedTime);
 		trainingStatistics.setGaps(gaps);
 		trainingStatistics.setDistance(distance);
-		trainingStatistics.setAverageHeartRate((int) (Math.ceil(hr / counter)));
+		trainingStatistics.setAverageHeartRate((int) (Math.ceil(heartRateSum / counter)));
 		trainingStatistics.setMaximalHeartRate((int) maxHeartRate);
 		trainingStatistics.setTrimp((int) trimp);
 		trainingStatistics.setAscend((int) ascend);
@@ -174,6 +204,33 @@ public class TrainingParser {
 		for (Map.Entry<TrainingZone, Double> zone : zoneMap.entrySet()) {
 			logger.info("Time in " + zone.getKey().getName() + " zone (" + zone.getKey().getFrom() + "-" + zone.getKey().getTo() + "): " + (zone.getValue() / 60.0));
 		}
+		
+		List<Double> peakHeartRateList = new ArrayList<Double>(peakHeartRateMap.keySet());
+		Collections.sort(peakHeartRateList);
+		Collections.reverse(peakHeartRateList);
+		double time = 0;
+		for(Double hr : peakHeartRateList) {
+			List<Integer> list = peakHeartRateMap.get(hr);
+			for (Integer max : list) {
+				time = time + max;
+			}
+			
+			//logger.info(""+ hr + ": " + (time > 3600 ? convertToHour((long)time) + " h" : time > 59 ? new DecimalFormat("#.##").format(time /60) + " m" : time + " s"));
+			logger.info("" + convertSeconds((long) time) + ";" + hr.intValue());
+		}
+	}
+	
+	private String convertToHour(long totalTime) {
+		long minutes = (totalTime / (60)) % 60;
+		long hours = (totalTime / (60 * 60)) % 24;
+		return hours + ":" + minutes;
+	}
+	
+	private String convertSeconds(long totalTime) {
+		long hours = totalTime / 3600;
+		long minutes = (totalTime % 3600) / 60;
+		long seconds = totalTime % 60;
+		return new DecimalFormat("00").format(hours) + ":" + new DecimalFormat("00").format(minutes) + ":" + new DecimalFormat("00").format(seconds);
 	}
 
 	public void parse(User user, String fileName) throws Exception {
