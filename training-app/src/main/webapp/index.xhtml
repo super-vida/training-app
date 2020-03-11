@@ -3,6 +3,36 @@
 </h:head>
 <h:body>
 
+  <h:form>
+    <p:growl id="messages" />
+
+    <p:menubar>
+      <p:menuitem value="VELOVIDA" icon="pi pi-file" />
+      <p:menuitem value="Dashboard" icon="pi pi-pencil" />
+      <p:menuitem value="Diary" icon="pi pi-question" />
+      <p:menuitem value="Goals" icon="pi pi-times" />
+      <p:menuitem value="Analysis" icon="pi pi-times" />
+
+
+      <f:facet name="options">
+          <p:menubar>
+            <p:submenu label="New" icon="pi pi-file">
+              <p:menuitem value="New Workout" icon="pi pi-briefcase" />
+              <p:menuitem value="Import File" />
+              <p:separator />
+            </p:submenu>
+            <p:submenu label="Hello Vida" icon="pi pi-file">
+              <p:menuitem value="My Profile" icon="pi pi-briefcase" />
+              <p:separator />
+              <p:menuitem value="Log Out" />
+            </p:submenu>
+          </p:menubar>
+      </f:facet>
+    </p:menubar>
+  </h:form>
+
+
+
   <p:growl id="messages" />
 
   <h2>User</h2>
@@ -63,6 +93,5 @@
       #{workout.averageCadence}
   </p:column>
   </p:dataTable>
-
 </h:body>
 </html>
