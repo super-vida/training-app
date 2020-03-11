@@ -1,11 +1,13 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
 </h:head>
 <h:body>
 
   <p:growl id="messages" />
 
-  <p:dataTable value="#{userController.users}" var="user" id="checkTable">
+  <h2>User</h2>
+
+  <p:dataTable value="#{userController.users}" var="user" id="userTable">
     <p:column headerText="first name">
     #{user.firstName}
   </p:column>
@@ -17,6 +19,48 @@
   </p:column>
     <p:column headerText="email">
       #{user.email}
+  </p:column>
+  </p:dataTable>
+
+  <h2>Workout</h2>
+
+  <p:dataTable value="#{workoutController.workouts}" var="workout" id="workoutTable">
+    <p:column headerText="date">
+      <h:outputText value="#{workout.date}">
+        <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+      </h:outputText>
+    </p:column>
+    <p:column headerText="duration">
+      <h:outputText value="#{workout.duration}">
+        <f:convertDateTime pattern="HH:mm" />
+      </h:outputText>
+    </p:column>
+    <p:column headerText="motion">
+      <h:outputText value="#{workout.motion}">
+        <f:convertDateTime pattern="HH:mm" />
+      </h:outputText>
+    </p:column>
+    <p:column headerText="distance">
+      <h:outputText value="#{workout.distance}">
+        <f:convertNumber pattern="#.##" />
+      </h:outputText>
+    </p:column>
+    <p:column headerText="ascend">
+      #{workout.ascend}
+  </p:column>
+    <p:column headerText="speed">
+      #{workout.averageSpeed}
+  </p:column>
+    <p:column headerText="heart rate">
+      <h:outputText value="#{workout.averageHeartRate}">
+        <f:convertNumber pattern="#.##" />
+      </h:outputText>
+    </p:column>
+    <p:column headerText="trimp">
+      #{workout.trimp}
+  </p:column>
+    <p:column headerText="cadence">
+      #{workout.averageCadence}
   </p:column>
   </p:dataTable>
 

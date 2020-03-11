@@ -3,6 +3,8 @@ package cz.prague.vida.training.parser;
 import static cz.prague.vida.training.Logger.logger;
 
 import java.io.FileReader;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -21,6 +23,7 @@ import javax.xml.stream.XMLStreamReader;
 import cz.prague.vida.training.entity.TrainingStatistics;
 import cz.prague.vida.training.entity.TrainingZone;
 import cz.prague.vida.training.entity.User;
+import cz.prague.vida.training.entity.Workout;
 import cz.prague.vida.training.gpx.Gpx;
 import cz.prague.vida.training.gpx.Trkpt;
 
@@ -175,9 +178,9 @@ public class GpxTrainingParser {
 		}
 	}
 
-	private void parse(Gpx gpx) {
+	private Workout parse(Gpx gpx) {
 		trackPoints = Arrays.asList(gpx.getTrk().getTrkseg().getTrkpt());
-
+        Workout workout = new Workout();
 		for (Trkpt t : trackPoints) {
 			makeTimeStatistics(t);
 			makeDistanceStatistics(t);
@@ -197,6 +200,17 @@ public class GpxTrainingParser {
 		trainingStatistics.setAscend((int) ascend);
 		trainingStatistics.setDescend((int) descend);
 		trainingStatistics.print();
+		
+		
+		workout.setDate(new java.util.Date());
+		workout.setDuration(duration.toMillis());
+		workout.setMotion(duration.toMillis() - pausedTime);
+		workout.setDistance(new BigDecimal(distance));
+		workout.setAscend((int) ascend);
+		workout.setAverageHeartRate((int) (Math.ceil(heartRateSum / counter)));
+		workout.setTrimp((int) trimp);
+		double time = (duration.toMillis() - pausedTime) / 1000.0 / 60.0 / 60.0 ;
+		workout.setAverageSpeed(new BigDecimal(distance / time));
 
 		for (Map.Entry<TrainingZone, Double> zone : zoneMap.entrySet()) {
 			logger.info("Time in " + zone.getKey().getName() + " zone (" + zone.getKey().getFrom() + "-" + zone.getKey().getTo() + "): " + (zone.getValue() / 60.0));
@@ -205,7 +219,7 @@ public class GpxTrainingParser {
 		List<Double> peakHeartRateList = new ArrayList<Double>(peakHeartRateMap.keySet());
 		Collections.sort(peakHeartRateList);
 		Collections.reverse(peakHeartRateList);
-		double time = 0;
+		time = 0;
 		for(Double hr : peakHeartRateList) {
 			List<Integer> list = peakHeartRateMap.get(hr);
 			for (Integer max : list) {
@@ -215,6 +229,7 @@ public class GpxTrainingParser {
 			//logger.info(""+ hr + ": " + (time > 3600 ? convertToHour((long)time) + " h" : time > 59 ? new DecimalFormat("#.##").format(time /60) + " m" : time + " s"));
 			logger.info("" + convertSeconds((long) time) + ";" + hr.intValue());
 		}
+		return workout;
 	}
 	
 	private String convertToHour(long totalTime) {
@@ -230,7 +245,7 @@ public class GpxTrainingParser {
 		return new DecimalFormat("00").format(hours) + ":" + new DecimalFormat("00").format(minutes) + ":" + new DecimalFormat("00").format(seconds);
 	}
 
-	public void parse(User user, String fileName) throws Exception {
+	public Workout parse(User user, String fileName) throws Exception {
 		logger.info("parsing...");
 		this.user = user;
 		FileReader fileReader = new FileReader(fileName);
@@ -239,7 +254,7 @@ public class GpxTrainingParser {
 		XMLStreamReader xsr = xif.createXMLStreamReader(fileReader);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 		Gpx gpx = (Gpx) unmarshaller.unmarshal(xsr);
-		parse(gpx);
+		return parse(gpx);
 
 	}
 
