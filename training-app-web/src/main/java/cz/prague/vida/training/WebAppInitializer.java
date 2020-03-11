@@ -1,4 +1,4 @@
-package cz.prague.vida.training.web;
+package cz.prague.vida.training;
 
 
 import javax.servlet.ServletContext;
@@ -7,7 +7,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
-public class MyWebAppInitializer implements WebApplicationInitializer {
+public class WebAppInitializer implements WebApplicationInitializer {
 
 	public void onStartup(ServletContext container) {
 		// Create the 'root' Spring application context

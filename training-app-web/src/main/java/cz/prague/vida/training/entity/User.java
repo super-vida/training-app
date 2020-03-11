@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class User {
@@ -15,6 +16,7 @@ public class User {
 	private String lastName;
 	private String userName;
 	private String email;
+	@Transient
 	private List<TrainingZone> trainingZones;
 	
 	

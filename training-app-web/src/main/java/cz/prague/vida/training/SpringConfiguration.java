@@ -1,5 +1,4 @@
-package cz.prague.vida.training.web;
-
+package cz.prague.vida.training;
 
 import java.util.Properties;
 
@@ -17,16 +16,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-
 @Configuration
 @ComponentScan
 @EnableTransactionManagement
 @EnableJpaRepositories
 public class SpringConfiguration {
-	
+
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-			DataSource dataSource) {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
 		LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactory.setDataSource(dataSource);
 		Properties jpaProperties = new Properties();
@@ -34,17 +31,14 @@ public class SpringConfiguration {
 		jpaProperties.put("hibernate.show_sql", "true");
 		// jpaProperties.put("hibernate.format_sql", "true");
 		entityManagerFactory.setJpaProperties(jpaProperties);
-		entityManagerFactory.setPackagesToScan("cz.prague.vida.training.web.entity");
-		entityManagerFactory
-				.setPersistenceProvider(new HibernatePersistenceProvider());
+		entityManagerFactory.setPackagesToScan("cz.prague.vida.training");
+		entityManagerFactory.setPersistenceProvider(new HibernatePersistenceProvider());
 		return entityManagerFactory;
 	}
 
 	@Bean
-	public JpaTransactionManager transactionManager(DataSource dataSource,
-			EntityManagerFactory entityManagerFactory) {
-		JpaTransactionManager transactionManager = new JpaTransactionManager(
-				entityManagerFactory);
+	public JpaTransactionManager transactionManager(DataSource dataSource, EntityManagerFactory entityManagerFactory) {
+		JpaTransactionManager transactionManager = new JpaTransactionManager(entityManagerFactory);
 		transactionManager.setDataSource(dataSource);
 		return transactionManager;
 	}
@@ -58,5 +52,4 @@ public class SpringConfiguration {
 		return dataSource;
 	}
 
-	
 }
