@@ -8,3 +8,7 @@ training-app-web/.classpath
 training-app-web/.gitignore
 training-app-web/.project
 training-app-web/.settings/
+/training-app/.classpath
+/training-app/.gitignore
+/training-app/.project
+/training-app/.settings
