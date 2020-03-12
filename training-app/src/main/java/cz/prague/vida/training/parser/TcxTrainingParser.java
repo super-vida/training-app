@@ -25,13 +25,15 @@ import cz.prague.vida.training.entity.TrainingZone;
 import cz.prague.vida.training.entity.User;
 import cz.prague.vida.training.entity.Workout;
 import cz.prague.vida.training.gpx.Trkpt;
+import cz.prague.vida.training.tcx.Activities;
+import cz.prague.vida.training.tcx.Trackpoint;
 import cz.prague.vida.training.tcx.TrainingCenterDatabase;
 
 public class TcxTrainingParser {
 
 	private TrainingStatistics trainingStatistics = new TrainingStatistics();
 
-	private List<Trkpt> trackPoints;
+	private Trackpoint[] trackPoints;
 
 	private Instant startTime = null;
 	private Instant finnishTime = null;
@@ -76,25 +78,25 @@ public class TcxTrainingParser {
 		}
 	}
 
-	private void makeDistanceStatistics(Trkpt t) {
+	private void makeDistanceStatistics(Trackpoint t) {
 
 		if (lastLatitude > 0) {
-			double latitude = Double.parseDouble(t.getLat());
-			double longtitute = Double.parseDouble(t.getLon());
+			double latitude = Double.parseDouble(t.getPosition().getLatitudeDegrees());
+			double longtitute = Double.parseDouble(t.getPosition().getLongitudeDegrees());
 			distance = distance + distance(lastLatitude, lastLongtitute, latitude, longtitute, "K");
 		}
-		lastLatitude = Double.parseDouble(t.getLat());
-		lastLongtitute = Double.parseDouble(t.getLon());
+		lastLatitude = Double.parseDouble(t.getPosition().getLatitudeDegrees());
+		lastLongtitute = Double.parseDouble(t.getPosition().getLongitudeDegrees());
 	}
 
-	private void makeHeartRateStatistics(Trkpt t) {
+	private void makeHeartRateStatistics(Trackpoint t) {
 
-		Double localHr = Double.valueOf(t.getExtensions().getTrackPointExtension().getHr());
+		Double localHr = Double.valueOf(t.getHeartRateBpm().getValue());
 		maxHeartRate = localHr > maxHeartRate ? localHr : maxHeartRate;
 		Double timeInHeartRate = trimpMap.get(localHr);
 		trimpMap.put(localHr, timeInHeartRate == null ? 1 : timeInHeartRate + 1);
 		heartRateSum = heartRateSum + localHr;
-		if (user.getTrainingZones() != null) {
+		if (user != null && user.getTrainingZones() != null) {
 			for (TrainingZone zone : user.getTrainingZones()) {
 				if (localHr.intValue() > zone.getFrom().intValue() && localHr.intValue() <= zone.getTo().intValue() ) {
 					if (zoneMap.containsKey(zone)) {
@@ -133,10 +135,10 @@ public class TcxTrainingParser {
 		lastHeartRate = localHr;
 	}
 
-	private void makeElevationStatistics(Trkpt t) {
+	private void makeElevationStatistics(Trackpoint t) {
 
 		if (lastElevation > 0) {
-			double elevation = Double.parseDouble(t.getEle());
+			double elevation = Double.parseDouble(t.getAltitudeMeters());
 			if (elevation > lastElevation) {
 				ascend = ascend + (elevation - lastElevation);
 			}
@@ -144,17 +146,17 @@ public class TcxTrainingParser {
 				descend = descend + (lastElevation - elevation);
 			}
 		}
-		lastElevation = Double.parseDouble(t.getEle());
+		lastElevation = Double.parseDouble(t.getAltitudeMeters());
 
 	}
 
-	private void makeTimeStatistics(Trkpt t) {
+	private void makeTimeStatistics(Trackpoint t) {
 
 		if (startTime == null) {
 			startTime = Instant.parse(t.getTime());
 		}
 
-		if (counter + 1 == trackPoints.size()) {
+		if (counter + 1 == trackPoints.length) {
 			finnishTime = Instant.parse(t.getTime());
 		}
 
@@ -179,56 +181,56 @@ public class TcxTrainingParser {
 	}
 
 	private Workout parse(TrainingCenterDatabase gpx) {
-		//trackPoints = gpx.getActivities());
+ trackPoints = gpx.getActivities().getActivity().getLap().getTrack().getTrackpoint();
         Workout workout = new Workout();
-//		for (Trkpt t : trackPoints) {
-//			makeTimeStatistics(t);
-//			makeDistanceStatistics(t);
-//			makeHeartRateStatistics(t);
-//			makeElevationStatistics(t);
-//			counter++;
-//		}
-//		computeTrimp();
-//		Duration duration = Duration.between(startTime, finnishTime);
-//		trainingStatistics.setTotalTime(Math.abs(duration.toMillis()));
-//		trainingStatistics.setPausedTime(pausedTime);
-//		trainingStatistics.setGaps(gaps);
-//		trainingStatistics.setDistance(distance);
-//		trainingStatistics.setAverageHeartRate((int) (Math.ceil(heartRateSum / counter)));
-//		trainingStatistics.setMaximalHeartRate((int) maxHeartRate);
-//		trainingStatistics.setTrimp((int) trimp);
-//		trainingStatistics.setAscend((int) ascend);
-//		trainingStatistics.setDescend((int) descend);
-//		trainingStatistics.print();
-//		
-//		
-//		workout.setDate(new java.util.Date());
-//		workout.setDuration(duration.toMillis());
-//		workout.setMotion(duration.toMillis() - pausedTime);
-//		workout.setDistance(new BigDecimal(distance));
-//		workout.setAscend((int) ascend);
-//		workout.setAverageHeartRate((int) (Math.ceil(heartRateSum / counter)));
-//		workout.setTrimp((int) trimp);
-//		double time = (duration.toMillis() - pausedTime) / 1000.0 / 60.0 / 60.0 ;
-//		workout.setAverageSpeed(new BigDecimal(distance / time));
-//
-//		for (Map.Entry<TrainingZone, Double> zone : zoneMap.entrySet()) {
-//			logger.info("Time in " + zone.getKey().getName() + " zone (" + zone.getKey().getFrom() + "-" + zone.getKey().getTo() + "): " + (zone.getValue() / 60.0));
-//		}
-//		
-//		List<Double> peakHeartRateList = new ArrayList<Double>(peakHeartRateMap.keySet());
-//		Collections.sort(peakHeartRateList);
-//		Collections.reverse(peakHeartRateList);
-//		time = 0;
-//		for(Double hr : peakHeartRateList) {
-//			List<Integer> list = peakHeartRateMap.get(hr);
-//			for (Integer max : list) {
-//				time = time + max;
-//			}
-//			
-//			//logger.info(""+ hr + ": " + (time > 3600 ? convertToHour((long)time) + " h" : time > 59 ? new DecimalFormat("#.##").format(time /60) + " m" : time + " s"));
-//			logger.info("" + convertSeconds((long) time) + ";" + hr.intValue());
-//		}
+		for (Trackpoint t : trackPoints) {
+			makeTimeStatistics(t);
+			makeDistanceStatistics(t);
+			makeHeartRateStatistics(t);
+			makeElevationStatistics(t);
+			counter++;
+		}
+		computeTrimp();
+		Duration duration = Duration.between(startTime, finnishTime);
+		trainingStatistics.setTotalTime(Math.abs(duration.toMillis()));
+		trainingStatistics.setPausedTime(pausedTime);
+		trainingStatistics.setGaps(gaps);
+		trainingStatistics.setDistance(distance);
+		trainingStatistics.setAverageHeartRate((int) (Math.ceil(heartRateSum / counter)));
+		trainingStatistics.setMaximalHeartRate((int) maxHeartRate);
+		trainingStatistics.setTrimp((int) trimp);
+		trainingStatistics.setAscend((int) ascend);
+		trainingStatistics.setDescend((int) descend);
+		trainingStatistics.print();
+		
+		
+		workout.setDate(new java.util.Date());
+		workout.setDuration(duration.toMillis());
+		workout.setMotion(duration.toMillis() - pausedTime);
+		workout.setDistance(new BigDecimal(distance));
+		workout.setAscend((int) ascend);
+		workout.setAverageHeartRate((int) (Math.ceil(heartRateSum / counter)));
+		workout.setTrimp((int) trimp);
+		double time = (duration.toMillis() - pausedTime) / 1000.0 / 60.0 / 60.0 ;
+		workout.setAverageSpeed(new BigDecimal(distance / time));
+
+		for (Map.Entry<TrainingZone, Double> zone : zoneMap.entrySet()) {
+			logger.info("Time in " + zone.getKey().getName() + " zone (" + zone.getKey().getFrom() + "-" + zone.getKey().getTo() + "): " + (zone.getValue() / 60.0));
+		}
+		
+		List<Double> peakHeartRateList = new ArrayList<Double>(peakHeartRateMap.keySet());
+		Collections.sort(peakHeartRateList);
+		Collections.reverse(peakHeartRateList);
+		time = 0;
+		for(Double hr : peakHeartRateList) {
+			List<Integer> list = peakHeartRateMap.get(hr);
+			for (Integer max : list) {
+				time = time + max;
+			}
+			
+			//logger.info(""+ hr + ": " + (time > 3600 ? convertToHour((long)time) + " h" : time > 59 ? new DecimalFormat("#.##").format(time /60) + " m" : time + " s"));
+			logger.info("" + convertSeconds((long) time) + ";" + hr.intValue());
+		}
 		return workout;
 	}
 	

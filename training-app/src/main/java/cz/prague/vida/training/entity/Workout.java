@@ -74,6 +74,12 @@ public class Workout {
 	public void setAverageCadence(Integer averageCadence) {
 		this.averageCadence = averageCadence;
 	}
+	@Override
+	public String toString() {
+		return "Workout [id=" + id + ", date=" + date + ", duration=" + duration + ", motion=" + motion + ", distance="
+				+ distance + ", ascend=" + ascend + ", averageSpeed=" + averageSpeed + ", averageHeartRate="
+				+ averageHeartRate + ", trimp=" + trimp + ", averageCadence=" + averageCadence + "]";
+	}
 	
 	
 	

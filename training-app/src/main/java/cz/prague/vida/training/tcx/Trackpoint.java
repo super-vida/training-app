@@ -45,6 +45,25 @@ public class Trackpoint
 	public void setExtensions(Extensions extensions) {
 		this.extensions = extensions;
 	}
+	
+	public Position getPosition() {
+		return position;
+	}
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+	public String getAltitudeMeters() {
+		return altitudeMeters;
+	}
+	public void setAltitudeMeters(String altitudeMeters) {
+		this.altitudeMeters = altitudeMeters;
+	}
+	public String getDistanceMeters() {
+		return distanceMeters;
+	}
+	public void setDistanceMeters(String distanceMeters) {
+		this.distanceMeters = distanceMeters;
+	}
 	@Override
 	public String toString() {
 		return "Trackpoint [heartRateBpm=" + heartRateBpm + ", cadence=" + cadence + ", position=" + position
