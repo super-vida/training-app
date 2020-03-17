@@ -1,5 +1,7 @@
 package cz.prague.vida.training.tcx;
 
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -12,7 +14,7 @@ public class Activity
 	@XmlElement(name = "Lap")
     private Lap lap;
 	@XmlElement(name = "Id")
-    private String id;
+    private Date id;
 	@XmlElement(name = "Creator")
     private Creator creator;
 
@@ -32,11 +34,11 @@ public class Activity
 		this.lap = lap;
 	}
 
-	public String getId() {
+	public Date getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Date id) {
 		this.id = id;
 	}
 

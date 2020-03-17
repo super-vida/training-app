@@ -1,0 +1,89 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+  <style type="text/css">
+.ui-panel, div.ui-state-hover {
+	margin: 10px;
+	width: 200px;
+}
+
+.ui-panel-titlebar {
+	background-color: #007ad9 !important;
+}
+
+.ui-dashboard-column {
+	width: 220px;
+}
+</style>
+</h:head>
+<h:body>
+  <ui:include src="./menu.xhtml" />
+
+  <p:growl id="messages" />
+
+  <h2>
+    <h:outputText value="#{workoutView.selectedWorkout.sport}" style="padding-right:20px" />
+    <h:outputText value="#{workoutView.selectedWorkout.date}">
+      <f:convertDateTime pattern="dd.MM.yy HH:mm:ss" />
+    </h:outputText>
+  </h2>
+
+<p:panelGrid columns="1">
+  <p:dashboard id="board" model="#{workoutView.model}">
+    <p:panel id="duration" header="Duration" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.duration}">
+        <f:convertDateTime pattern="HH:mm" />
+      </h:outputText>
+    </p:panel>
+
+    <p:panel id="motion" header="Motion" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.motion}">
+        <f:convertDateTime pattern="HH:mm" />
+      </h:outputText>
+    </p:panel>
+
+    <p:panel id="distance" header="Distance" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.distance}" />
+    </p:panel>
+
+    <p:panel id="ascend" header="Ascend" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.ascend}" />
+    </p:panel>
+
+    <p:panel id="speed" header="Speed" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.averageSpeed}" />
+    </p:panel>
+
+    <p:panel id="heartRate" header="Heart Rate" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.averageHeartRate}" />
+      <h:outputText value="/" />
+      <h:outputText value="#{workoutView.selectedWorkout.maxHeartRate}" />
+    </p:panel>
+
+    <p:panel id="trimp" header="TRIMP" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.trimp}" />
+    </p:panel>
+
+    <p:panel id="calories" header="Calories" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.calories}" />
+    </p:panel>
+
+    <p:panel id="gaps" header="Gaps" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.gaps}" />
+    </p:panel>
+
+    <p:panel id="cadence" header="Cadence" style="text-align: center;">
+      <h:outputText value="#{workoutView.selectedWorkout.cadenceAvg}" />
+      <h:outputText value="/" />
+      <h:outputText value="#{workoutView.selectedWorkout.cadenceMax}" />
+    </p:panel>
+
+  </p:dashboard>
+
+  <p:chart type="pie" model="#{workoutView.pieModel1}" style="width:400px;height:300px" />
+ 
+
+
+</p:panelGrid>
+
+</h:body>
+</html>

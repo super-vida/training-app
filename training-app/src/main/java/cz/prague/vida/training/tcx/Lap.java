@@ -20,7 +20,7 @@ public class Lap {
 	@XmlElement(name = "AverageHeartRateBpm")
 	private AverageHeartRateBpm averageHeartRateBpm;
 	@XmlElement(name = "Calories")
-	private String calories;
+	private Integer calories;
 	@XmlElement(name = "Track")
 	private Track track;
 
@@ -72,11 +72,11 @@ public class Lap {
 		this.averageHeartRateBpm = averageHeartRateBpm;
 	}
 
-	public String getCalories() {
+	public Integer getCalories() {
 		return calories;
 	}
 
-	public void setCalories(String calories) {
+	public void setCalories(Integer calories) {
 		this.calories = calories;
 	}
 

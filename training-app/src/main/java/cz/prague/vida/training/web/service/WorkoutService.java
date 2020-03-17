@@ -2,6 +2,8 @@ package cz.prague.vida.training.web.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import cz.prague.vida.training.entity.Workout;
 import cz.prague.vida.training.web.repository.WorkoutRepository;
@@ -13,7 +15,7 @@ public class WorkoutService {
 	private WorkoutRepository workoutRepository;
 	
 	public List<Workout> findAll() {
-		return workoutRepository.findAll();
+		return workoutRepository.findAll(new Sort(Direction.DESC, "date"));
 	}
 
 	public void save(Workout workout) {

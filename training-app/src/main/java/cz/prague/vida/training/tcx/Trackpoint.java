@@ -10,7 +10,7 @@ public class Trackpoint
 	@XmlElement(name = "HeartRateBpm")
     private HeartRateBpm heartRateBpm;
 	@XmlElement(name = "Cadence")
-    private String cadence;
+    private Integer cadence;
 	@XmlElement(name = "Position")
 	private Position position;
 	@XmlElement(name = "Time")
@@ -27,10 +27,10 @@ public class Trackpoint
 	public void setHeartRateBpm(HeartRateBpm heartRateBpm) {
 		this.heartRateBpm = heartRateBpm;
 	}
-	public String getCadence() {
+	public Integer getCadence() {
 		return cadence;
 	}
-	public void setCadence(String cadence) {
+	public void setCadence(Integer cadence) {
 		this.cadence = cadence;
 	}
 	public String getTime() {

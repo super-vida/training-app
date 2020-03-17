@@ -4,11 +4,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement( name = "trainingCenterDatabase",  namespace = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2")
-@XmlType(name = "trainingCenterDatabase")
+@XmlRootElement( name = "TrainingCenterDatabase",  namespace = "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2")
 public class TrainingCenterDatabase
 {
 	@XmlElement(name = "Activities")

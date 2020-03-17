@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+ <h:form>
+    <p:growl id="messages" />
+
+    <p:menubar style="padding:0px">
+      <p:menuitem value="VELOVIDA" />
+      <p:menuitem value="Dashboard" action="dashboard"/>
+      <p:menuitem value="Diary" />
+      <p:menuitem value="Goals" />
+      <p:menuitem value="Analysis" />
+
+
+      <f:facet name="options">
+        <p:menubar style="padding:0px">
+          <p:submenu label="New" icon="pi pi-cloud">
+            <p:menuitem value="New Workout" icon="pi pi-pencil" />
+            <p:menuitem value="Import File" icon="pi pi-cloud-upload" />
+            <p:separator />
+          </p:submenu>
+          <p:menuitem value="" icon="pi pi-cog" title="Settings" />
+          <p:submenu label="Hello Vida" icon="pi pi-user">
+            <p:menuitem value="My Profile" icon="pi pi-user" />
+            <p:separator />
+            <p:menuitem value="Log Out" icon="pi pi-sign-out" />
+          </p:submenu>
+        </p:menubar>
+      </f:facet>
+    </p:menubar>
+  </h:form>
+</html>
