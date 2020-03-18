@@ -2,8 +2,8 @@ package cz.prague.vida.training.view;
 
 import java.io.IOException;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
@@ -17,7 +17,7 @@ import org.primefaces.model.chart.PieChartModel;
 import cz.prague.vida.training.entity.Workout;
 
 @Named("workoutView")
-@ViewScoped
+@ApplicationScoped
 public class WorkoutView {
 
 	private Workout selectedWorkout;
@@ -35,9 +35,11 @@ public class WorkoutView {
 		this.selectedWorkout = selectedWorkout;
 	}
 
-	public void onRowSelect(SelectEvent<Workout> event) {
-		FacesMessage msg = new FacesMessage("Car Selected", event.getObject().getId().toString());
-		setSelectedWorkout(event.getObject());
+	public void onRowSelect(SelectEvent event) {
+		System.out.println("onRowSelect" + event.getObject());
+		FacesMessage msg = new FacesMessage("Car Selected", ((Workout) event.getObject()).getId().toString());
+		setSelectedWorkout((Workout) event.getObject());
+		System.out.println(selectedWorkout);
 		 try {
 			 model = new DefaultDashboardModel();
 			 DashboardColumn column1 = new DefaultDashboardColumn();
@@ -113,6 +115,8 @@ public class WorkoutView {
 		this.pieModel1 = pieModel1;
 	}
 
-	 
+	 public String getHovno() {
+		 return "hovno";
+	 }
 
 }

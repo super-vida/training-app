@@ -1,22 +1,11 @@
 <html 
 xmlns="http://www.w3.org/1999/xhtml" 
 xmlns:ui="http://java.sun.com/jsf/facelets"
-xmlns:h="http://xmlns.jcp.org/jsf/html"
-xmlns:p="http://primefaces.org/ui"
-xmlns:f="http://xmlns.jcp.org/jsf/core">
+ xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
-  <style>
-.ui-tabs-header a {
-	color: #333 !important;
-}
-
-body .ui-tabs .ui-tabs-nav .ui-tabs-header {
-	background-color: white;
-	border: 0;
-	!
-	important;
-}
-</style>
+ 
 </h:head>
 <h:body>
 
@@ -44,6 +33,7 @@ body .ui-tabs .ui-tabs-nav .ui-tabs-header {
       </p:dataTable-->
 
       <h3>Workouts</h3>
+    
 
       <p:dataTable value="#{workoutController.workouts}" var="workout" id="workoutTable" selectionMode="single" selection="#{workoutView.selectedWorkout}" rowKey="#{workout.id}">
         <p:ajax event="rowSelect" listener="#{workoutView.onRowSelect}" />
@@ -75,10 +65,10 @@ body .ui-tabs .ui-tabs-nav .ui-tabs-header {
       #{workout.ascend}
   </p:column>
         <p:column headerText="speed" style="width:80px;text-align: center;">
-      #{workout.averageSpeed}
+      #{workout.speedAvg}
   </p:column>
         <p:column headerText="heart rate" style="width:80px;text-align: center;">
-          <h:outputText value="#{workout.averageHeartRate}">
+          <h:outputText value="#{workout.heartRateAvg}">
             <f:convertNumber pattern="#.##" />
           </h:outputText>
         </p:column>
@@ -92,6 +82,8 @@ body .ui-tabs .ui-tabs-nav .ui-tabs-header {
       #{workout.calories}
   </p:column>
       </p:dataTable>
+   
+      
 
     </p:tab>
     <p:tab title="Past 28 Days">

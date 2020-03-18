@@ -49,7 +49,7 @@ public class TcxTrainingParser extends Parser {
 		XMLStreamReader xsr = xif.createXMLStreamReader(fileReader);
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 		TrainingCenterDatabase gpx = (TrainingCenterDatabase) unmarshaller.unmarshal(xsr);
-		System.out.println(gpx);
+		//System.out.println(gpx);
 		return parse(gpx);
 
 	}

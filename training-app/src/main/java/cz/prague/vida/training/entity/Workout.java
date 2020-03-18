@@ -20,14 +20,40 @@ public class Workout {
 	private Long motion;
 	private BigDecimal distance;
 	private Integer ascend;
-	private BigDecimal averageSpeed;
-	private Integer averageHeartRate;
-	protected Integer maxHeartRate;
+	private BigDecimal speedAvg;
+	private Integer heartRateAvg;
+	protected Integer heartRateMax;
 	private Integer trimp;
 	private Integer cadenceAvg;
 	private Integer cadenceMax;
 	private Integer calories;
 	protected Integer gaps;
+	
+	
+
+	public BigDecimal getSpeedAvg() {
+		return speedAvg;
+	}
+
+	public void setSpeedAvg(BigDecimal speedAvg) {
+		this.speedAvg = speedAvg;
+	}
+
+	public Integer getHeartRateAvg() {
+		return heartRateAvg;
+	}
+
+	public void setHeartRateAvg(Integer heartRateAvg) {
+		this.heartRateAvg = heartRateAvg;
+	}
+
+	public Integer getHeartRateMax() {
+		return heartRateMax;
+	}
+
+	public void setHeartRateMax(Integer heartRateMax) {
+		this.heartRateMax = heartRateMax;
+	}
 
 	public Long getId() {
 		return id;
@@ -39,13 +65,7 @@ public class Workout {
 	
 	
 
-	public Integer getMaxHeartRate() {
-		return maxHeartRate;
-	}
-
-	public void setMaxHeartRate(Integer maxHeartRate) {
-		this.maxHeartRate = maxHeartRate;
-	}
+	
 
 	public Integer getGaps() {
 		return gaps;
@@ -111,21 +131,6 @@ public class Workout {
 		this.ascend = ascend;
 	}
 
-	public BigDecimal getAverageSpeed() {
-		return averageSpeed;
-	}
-
-	public void setAverageSpeed(BigDecimal averageSpeed) {
-		this.averageSpeed = averageSpeed;
-	}
-
-	public Integer getAverageHeartRate() {
-		return averageHeartRate;
-	}
-
-	public void setAverageHeartRate(Integer averageHeartRate) {
-		this.averageHeartRate = averageHeartRate;
-	}
 
 	public Integer getTrimp() {
 		return trimp;
@@ -154,8 +159,14 @@ public class Workout {
 
 	@Override
 	public String toString() {
-		return "Workout [id=" + id + ", date=" + date + ", sport=" + sport + ", duration=" + duration + ", motion=" + motion + ", distance=" + distance + ", ascend=" + ascend + ", averageSpeed=" + averageSpeed + ", averageHeartRate=" + averageHeartRate + ", maxHeartRate=" + maxHeartRate + ", trimp=" + trimp + ", cadenceAvg=" + cadenceAvg + ", cadenceMax=" + cadenceMax + ", calories=" + calories + ", gaps=" + gaps + "]";
+		return "Workout [id=" + id + ", date=" + date + ", sport=" + sport + ", duration=" + duration + ", motion="
+				+ motion + ", distance=" + distance + ", ascend=" + ascend + ", speedAvg=" + speedAvg
+				+ ", heartRateAvg=" + heartRateAvg + ", heartRateMax=" + heartRateMax + ", trimp=" + trimp
+				+ ", cadenceAvg=" + cadenceAvg + ", cadenceMax=" + cadenceMax + ", calories=" + calories + ", gaps="
+				+ gaps + "]";
 	}
+
+	
 
 	
 

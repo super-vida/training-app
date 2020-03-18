@@ -1,4 +1,8 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:ui="http://java.sun.com/jsf/facelets"
+ xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
   <style type="text/css">
 .ui-panel, div.ui-state-hover {
@@ -6,9 +10,6 @@
 	width: 200px;
 }
 
-.ui-panel-titlebar {
-	background-color: #007ad9 !important;
-}
 
 .ui-dashboard-column {
 	width: 220px;
@@ -50,13 +51,13 @@
     </p:panel>
 
     <p:panel id="speed" header="Speed" style="text-align: center;">
-      <h:outputText value="#{workoutView.selectedWorkout.averageSpeed}" />
+      <h:outputText value="#{workoutView.selectedWorkout.speedAvg}" />
     </p:panel>
 
     <p:panel id="heartRate" header="Heart Rate" style="text-align: center;">
-      <h:outputText value="#{workoutView.selectedWorkout.averageHeartRate}" />
+      <h:outputText value="#{workoutView.selectedWorkout.heartRateAvg}" />
       <h:outputText value="/" />
-      <h:outputText value="#{workoutView.selectedWorkout.maxHeartRate}" />
+      <h:outputText value="#{workoutView.selectedWorkout.heartRateMax}" />
     </p:panel>
 
     <p:panel id="trimp" header="TRIMP" style="text-align: center;">

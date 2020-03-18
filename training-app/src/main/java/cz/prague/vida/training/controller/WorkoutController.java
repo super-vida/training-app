@@ -4,22 +4,25 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import cz.prague.vida.training.entity.Workout;
 import cz.prague.vida.training.web.service.WorkoutService;
 
-@ManagedBean
+@Named("workoutController")
 @ViewScoped
 public class WorkoutController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManagedProperty("#{workoutService}")
+	@Inject
 	private WorkoutService workoutService;
 
 	private List<Workout> workouts;

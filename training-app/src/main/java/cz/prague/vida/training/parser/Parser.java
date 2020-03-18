@@ -194,14 +194,14 @@ public class Parser {
 		workout.setMotion(duration.toMillis() - pausedTime);
 		workout.setDistance(new BigDecimal(distance));
 		workout.setAscend((int) ascend);
-		workout.setAverageHeartRate((int) (Math.ceil(heartRateSum / counter)));
-		workout.setMaxHeartRate((int) Math.ceil(maxHeartRate));
+		workout.setHeartRateAvg((int) (Math.ceil(heartRateSum / counter)));
+		workout.setHeartRateMax((int) Math.ceil(maxHeartRate));
 		workout.setCadenceAvg(cadenceSum / counter);
 		workout.setCadenceMax(cadenceMax);
 		workout.setTrimp((int) trimp);
 		workout.setGaps(gaps);
 		double time = (duration.toMillis() - pausedTime) / 1000.0 / 60.0 / 60.0;
-		workout.setAverageSpeed(new BigDecimal(distance / time));
+		workout.setSpeedAvg(new BigDecimal(distance / time));
 
 		for (Map.Entry<TrainingZone, Double> zone : zoneMap.entrySet()) {
 			logger.info("Time in " + zone.getKey().getName() + " zone (" + zone.getKey().getFrom() + "-" + zone.getKey().getTo() + "): " + (zone.getValue() / 60.0));
@@ -219,7 +219,7 @@ public class Parser {
 
 			// logger.info(""+ hr + ": " + (time > 3600 ? convertToHour((long)time) + " h" : time > 59 ? new
 			// DecimalFormat("#.##").format(time /60) + " m" : time + " s"));
-			logger.info("" + convertSeconds((long) time) + ";" + hr.intValue());
+			//logger.info("" + convertSeconds((long) time) + ";" + hr.intValue());
 		}
 
 		return workout;

@@ -15,7 +15,7 @@ public class WorkoutService {
 	private WorkoutRepository workoutRepository;
 	
 	public List<Workout> findAll() {
-		return workoutRepository.findAll(new Sort(Direction.DESC, "date"));
+		return workoutRepository.findAll(Sort.by(Direction.DESC, "date"));
 	}
 
 	public void save(Workout workout) {
